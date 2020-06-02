@@ -1,7 +1,7 @@
 /*  Lavindu Devadithya
     5/19/2020
 
-    Lab 11: TextExcel Checkpoint A3
+    Lab 11: TextExcel
 
     Replicate what Microsoft Excel can do with cells in a grid and implements certain
     functions, such as adding two cells together. */
@@ -15,9 +15,9 @@ public class PercentCell extends RealCell {
 
     //overides abbreviatedCellText() in TextCell
     public String abbreviatedCellText() {
-        String abrev = super.abbreviatedCellText();
-        double decimal = Double.parseDouble(abrev);
-        decimal *= 100;
+        //String abrev = super.getMessage();
+        double decimal = Double.parseDouble(super.fullCellText().substring(0, super.fullCellText().length() - 1));
+        //decimal *= 100;
         int cast = (int) decimal;
         String ret = cast + "%";
         int difference = 10 - ret.length();
@@ -31,9 +31,9 @@ public class PercentCell extends RealCell {
 
     //converts to percent from double
     public String fullCellText() {
-        Double parse = Double.parseDouble(super.fullCellText());
+        Double parse = Double.parseDouble(super.fullCellText().substring(0, super.fullCellText().length() - 1));
 
-        return parse * 100.0 + "%";
+        return parse + "%";
     }
 
     //overrides getDoubleValue() method in RealCell

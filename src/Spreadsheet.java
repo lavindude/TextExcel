@@ -1,7 +1,7 @@
 /*  Lavindu Devadithya
     5/19/2020
 
-    Lab 11: TextExcel Checkpoint A3
+    Lab 11: TextExcel
 
     Replicate what Microsoft Excel can do with cells in a grid and implements certain
     functions, such as adding two cells together. */
@@ -24,6 +24,9 @@ public class Spreadsheet implements Grid {
     @Override
     public String processCommand(String command) {
         // TODO Auto-generated method stub
+        if (command.equals("quit")) {
+            return "See you later!";
+        }
 
         String[] arr = command.split(" ");
 
@@ -123,7 +126,7 @@ public class Spreadsheet implements Grid {
                                 formula += arr[i] + " ";
                             }
 
-                            Cell c = new FormulaCell(formula);
+                            Cell c = new FormulaCell(formula.substring(0, formula.length() - 1));
                             cells[row][col] = c;
 
                             return this.getGridText();

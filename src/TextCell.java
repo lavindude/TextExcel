@@ -1,7 +1,7 @@
 /*  Lavindu Devadithya
     5/19/2020
 
-    Lab 11: TextExcel Checkpoint A3
+    Lab 11: TextExcel
 
     Replicate what Microsoft Excel can do with cells in a grid and implements certain
     functions, such as adding two cells together. */

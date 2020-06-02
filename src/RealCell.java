@@ -1,7 +1,7 @@
 /*  Lavindu Devadithya
     5/19/2020
 
-    Lab 11: TextExcel Checkpoint A3
+    Lab 11: TextExcel
 
     Replicate what Microsoft Excel can do with cells in a grid and implements certain
     functions, such as adding two cells together. */
@@ -12,7 +12,7 @@ public class RealCell extends TextCell implements Cell  {
 
     public RealCell(String c) {
         super(c);
-        super.setText(this.getDoubleValue() + "");
+        //super.setText(this.getDoubleValue() + "");
     }
 
     //might need later
@@ -24,4 +24,5 @@ public class RealCell extends TextCell implements Cell  {
     public double getDoubleValue() {
         return Double.parseDouble(super.fullCellText());
     }
+
 }
