@@ -1,5 +1,5 @@
 /*  Lavindu Devadithya
-    5/19/2020
+    6/10/2020
 
     Lab 11: TextExcel
 
@@ -126,8 +126,15 @@ public class Spreadsheet implements Grid {
                                 formula += arr[i] + " ";
                             }
 
-                            Cell c = new FormulaCell(formula.substring(0, formula.length() - 1));
+                            Cell c = new FormulaCell(formula.substring(0, formula.length() - 1), this);
                             cells[row][col] = c;
+
+                            //error handling:
+                            FormulaCell formCell = new FormulaCell(formula.substring(0, formula.length() - 1), this);
+                            if (formCell.getIsError()) {
+                                cells[row][col] = new EmptyCell();
+                                return "ERROR: Invalid command.";
+                            }
 
                             return this.getGridText();
                         }
