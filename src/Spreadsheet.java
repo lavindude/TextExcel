@@ -6,6 +6,9 @@
     Replicate what Microsoft Excel can do with cells in a grid and implements certain
     functions, such as adding two cells together. */
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Spreadsheet implements Grid {
     private Cell[][] cells;
 
@@ -35,6 +38,18 @@ public class Spreadsheet implements Grid {
             //if empty string
             if (command.equals("")) {
                 return "";
+            }
+
+            //sort from least to greatest
+            if (arr[0].equals("sorta")) {
+                sortAscending(arr[1]);
+                return this.getGridText();
+            }
+
+            //sort from greatest to least
+            if (arr[0].equals("sortd")) {
+                sortDescending(arr[1]);
+                return this.getGridText();
             }
 
             //for one word commands
@@ -163,6 +178,57 @@ public class Spreadsheet implements Grid {
         catch (Exception e) {
             return "ERROR: Invalid command.";
         }
+    }
+
+    public void sortAscending(String range) {
+        int dash = range.indexOf("-");
+        char firstLetter = range.charAt(0);
+        int firstNum = Integer.parseInt(range.substring(1, dash));
+        char secondLetter = range.charAt(dash + 1);
+        int secondNum = Integer.parseInt(range.substring(dash + 2));
+
+        //initialize everything into an ArrayList
+        ArrayList<Cell> cellsT = new ArrayList<Cell>();
+        for (char i = firstLetter; i <= secondLetter; i++) {
+            for (int k = firstNum; k <= secondNum; k++) {
+                Cell c = getCell(new SpreadsheetLocation(i + k + ""));
+                cellsT.add(c);
+            }
+        }
+
+        Cell c = this.getCell(new SpreadsheetLocation(firstLetter + firstNum + ""));
+
+        //SelectionSort for RealCell
+        if (c instanceof RealCell) { //if RealCell
+            for (int i = 0; i < cellsT.size(); i++) {
+                for (int k = i + 1; k < cellsT.size(); k++) {
+                    if (cellsT.get(k).fullCellText().compareTo(cellsT.get(i).fullCellText()) < 0) {
+                        Cell temp = cellsT.get(k);
+                        cellsT.set(k, cellsT.get(i));
+                        cellsT.set(i, temp);
+                    }
+                }
+            }
+
+            int index = 0;
+            int startCol = firstLetter - 65;
+            int endCol = secondLetter - 65;
+
+            for (int i = startCol; i <= endCol; i++) {
+                for (int k = firstNum; k <= secondNum; k++) {
+                    Cell replace = cellsT.get(index);
+                    cells[i][k] = replace;
+                }
+            }
+        }
+
+        else { //if TextCell
+            System.out.println("fail");
+        }
+    }
+
+    public void sortDescending(String range) {
+
     }
 
     @Override
