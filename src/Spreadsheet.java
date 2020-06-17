@@ -41,13 +41,13 @@ public class Spreadsheet implements Grid {
             }
 
             //sort from least to greatest
-            if (arr[0].equals("sorta")) {
+            if (arr[0].toLowerCase().equals("sorta")) {
                 sortAscending(arr[1]);
                 return this.getGridText();
             }
 
             //sort from greatest to least
-            if (arr[0].equals("sortd")) {
+            else if (arr[0].toLowerCase().equals("sortd")) {
                 sortDescending(arr[1]);
                 return this.getGridText();
             }
@@ -187,26 +187,39 @@ public class Spreadsheet implements Grid {
         char secondLetter = range.charAt(dash + 1);
         int secondNum = Integer.parseInt(range.substring(dash + 2));
 
-        //initialize everything into an ArrayList
-        ArrayList<Cell> cellsT = new ArrayList<Cell>();
-        for (char i = firstLetter; i <= secondLetter; i++) {
-            for (int k = firstNum; k <= secondNum; k++) {
-                Cell c = getCell(new SpreadsheetLocation(i + k + ""));
-                cellsT.add(c);
-            }
-        }
+        Cell c = this.getCell(new SpreadsheetLocation(firstLetter + "" + firstNum));
 
-        Cell c = this.getCell(new SpreadsheetLocation(firstLetter + firstNum + ""));
-
-        //SelectionSort for RealCell
+        //InsertionSort for RealCell
         if (c instanceof RealCell) { //if RealCell
-            for (int i = 0; i < cellsT.size(); i++) {
-                for (int k = i + 1; k < cellsT.size(); k++) {
-                    if (cellsT.get(k).fullCellText().compareTo(cellsT.get(i).fullCellText()) < 0) {
-                        Cell temp = cellsT.get(k);
-                        cellsT.set(k, cellsT.get(i));
-                        cellsT.set(i, temp);
+            ArrayList<RealCell> realCells = new ArrayList<RealCell>();
+            for (char i = firstLetter; i <= secondLetter; i++) {
+                for (int k = firstNum; k <= secondNum; k++) {
+                    RealCell cell = (RealCell) getCell(new SpreadsheetLocation(i + "" + k));
+                    realCells.add(cell);
+                }
+            }
+
+
+            //InsertionSort
+            boolean ordered = false;
+            while (!ordered) {
+                for (int i = 0; i < realCells.size() - 1; i++) {
+                    if (realCells.get(i + 1).compareTo(realCells.get(i)) < 0) {
+                        RealCell temp = realCells.get(i);
+                        realCells.set(i, realCells.get(i + 1));
+                        realCells.set(i + 1, temp);
                     }
+                }
+
+                int counts = 0;
+                for (int i = 0; i < realCells.size() - 1; i++) {
+                    if (realCells.get(i + 1).compareTo(realCells.get(i)) > 0) {
+                        counts++;
+                    }
+                }
+
+                if (counts == realCells.size() - 1) {
+                    ordered = true;
                 }
             }
 
@@ -214,21 +227,165 @@ public class Spreadsheet implements Grid {
             int startCol = firstLetter - 65;
             int endCol = secondLetter - 65;
 
-            for (int i = startCol; i <= endCol; i++) {
-                for (int k = firstNum; k <= secondNum; k++) {
-                    Cell replace = cellsT.get(index);
+            for (int i = firstNum - 1; i < secondNum; i++) {
+                for (int k = startCol; k <= endCol; k++) {
+                    RealCell replace = realCells.get(index);
                     cells[i][k] = replace;
+                    index++;
                 }
             }
+
         }
 
-        else { //if TextCell
-            System.out.println("fail");
+        else { //if TextExcel
+            ArrayList<TextCell> textCells = new ArrayList<TextCell>();
+            for (char i = firstLetter; i <= secondLetter; i++) {
+                for (int k = firstNum; k <= secondNum; k++) {
+                    TextCell cell = (TextCell) getCell(new SpreadsheetLocation(i + "" + k));
+                    textCells.add(cell);
+                }
+            }
+
+            //InsertionSort
+            boolean ordered = false;
+            while (!ordered) {
+                for (int i = 0; i < textCells.size() - 1; i++) {
+                    if ((textCells.get(i + 1).compareTo(textCells.get(i)) < 0)) {
+                        TextCell temp = textCells.get(i);
+                        textCells.set(i, textCells.get(i + 1));
+                        textCells.set(i + 1, temp);
+                    }
+                }
+
+                int counts = 0;
+                for (int i = 0; i < textCells.size() - 1; i++) {
+                    if ((textCells.get(i + 1).compareTo(textCells.get(i)) > 0)) {
+                        counts++;
+                    }
+                }
+
+                if (counts == textCells.size() - 1) {
+                    ordered = true;
+                }
+
+            }
+
+            int index = 0;
+            int startCol = firstLetter - 65;
+            int endCol = secondLetter - 65;
+
+            for (int i = firstNum - 1; i < secondNum; i++) {
+                for (int k = startCol; k <= endCol; k++) {
+                    TextCell replace = textCells.get(index);
+                    cells[i][k] = replace;
+                    index++;
+                }
+            }
         }
     }
 
     public void sortDescending(String range) {
+        int dash = range.indexOf("-");
+        char firstLetter = range.charAt(0);
+        int firstNum = Integer.parseInt(range.substring(1, dash));
+        char secondLetter = range.charAt(dash + 1);
+        int secondNum = Integer.parseInt(range.substring(dash + 2));
 
+        Cell c = this.getCell(new SpreadsheetLocation(firstLetter + "" + firstNum));
+
+        //InsertionSort for RealCell
+        if (c instanceof RealCell) { //if RealCell
+            ArrayList<RealCell> realCells = new ArrayList<RealCell>();
+            for (char i = firstLetter; i <= secondLetter; i++) {
+                for (int k = firstNum; k <= secondNum; k++) {
+                    RealCell cell = (RealCell) getCell(new SpreadsheetLocation(i + "" + k));
+                    realCells.add(cell);
+                }
+            }
+
+
+            //InsertionSort
+            boolean ordered = false;
+            while (!ordered) {
+                for (int i = 0; i < realCells.size() - 1; i++) {
+                    if (realCells.get(i + 1).compareTo(realCells.get(i)) > 0) {
+                        RealCell temp = realCells.get(i);
+                        realCells.set(i, realCells.get(i + 1));
+                        realCells.set(i + 1, temp);
+                    }
+                }
+
+                int counts = 0;
+                for (int i = 0; i < realCells.size() - 1; i++) {
+                    if (realCells.get(i + 1).compareTo(realCells.get(i)) < 0) {
+                        counts++;
+                    }
+                }
+
+                if (counts == realCells.size() - 1) {
+                    ordered = true;
+                }
+            }
+
+            int index = 0;
+            int startCol = firstLetter - 65;
+            int endCol = secondLetter - 65;
+
+            for (int i = firstNum - 1; i < secondNum; i++) {
+                for (int k = startCol; k <= endCol; k++) {
+                    RealCell replace = realCells.get(index);
+                    cells[i][k] = replace;
+                    index++;
+                }
+            }
+
+        }
+
+        else { //if TextExcel
+            ArrayList<TextCell> textCells = new ArrayList<TextCell>();
+            for (char i = firstLetter; i <= secondLetter; i++) {
+                for (int k = firstNum; k <= secondNum; k++) {
+                    TextCell cell = (TextCell) getCell(new SpreadsheetLocation(i + "" + k));
+                    textCells.add(cell);
+                }
+            }
+
+            //InsertionSort
+            boolean ordered = false;
+            while (!ordered) {
+                for (int i = 0; i < textCells.size() - 1; i++) {
+                    if ((textCells.get(i + 1).compareTo(textCells.get(i)) > 0)) {
+                        TextCell temp = textCells.get(i);
+                        textCells.set(i, textCells.get(i + 1));
+                        textCells.set(i + 1, temp);
+                    }
+                }
+
+                int counts = 0;
+                for (int i = 0; i < textCells.size() - 1; i++) {
+                    if ((textCells.get(i + 1).compareTo(textCells.get(i)) < 0)) {
+                        counts++;
+                    }
+                }
+
+                if (counts == textCells.size() - 1) {
+                    ordered = true;
+                }
+
+            }
+
+            int index = 0;
+            int startCol = firstLetter - 65;
+            int endCol = secondLetter - 65;
+
+            for (int i = firstNum - 1; i < secondNum; i++) {
+                for (int k = startCol; k <= endCol; k++) {
+                    TextCell replace = textCells.get(index);
+                    cells[i][k] = replace;
+                    index++;
+                }
+            }
+        }
     }
 
     @Override

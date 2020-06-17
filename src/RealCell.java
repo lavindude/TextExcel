@@ -8,7 +8,7 @@
 
 
 //it seems reasonable to do this to avoid duplicated code
-public class RealCell extends TextCell implements Cell  {
+public class RealCell extends TextCell implements Cell {
 
     public RealCell(String c) {
         super(c);
@@ -25,4 +25,17 @@ public class RealCell extends TextCell implements Cell  {
         return Double.parseDouble(super.fullCellText());
     }
 
+    public int compareTo(RealCell other) {
+        if (this.getDoubleValue() < other.getDoubleValue()) {
+            return -1;
+        }
+
+        else if (this.getDoubleValue() == other.getDoubleValue()) {
+            return 0;
+        }
+
+        else {
+            return 1;
+        }
+    }
 }

@@ -8,16 +8,26 @@
 
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TextExcel {
-
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         Spreadsheet s = new Spreadsheet();
 
-//        TestsAll.Helper th = new TestsAll.Helper();
-//        System.out.println(th.getText());
+//        s.processCommand("A9 = -13.2");
+//        s.processCommand("A10 = 19.2");
+//        s.processCommand("A1");
+//        s.processCommand("A12 = 607.1");
+//        s.processCommand("-13.2");
+//        s.processCommand("B9 = 88.2");
+//        s.processCommand("B10 = -190.1");
+//        s.processCommand("B11 = 1.2");
+//        s.processCommand("B12 = 607.2");
+//        s.processCommand("B13 = -0.02");
+//
+//        s.processCommand("SoRTd A9-B13");
 
         System.out.println(s.getGridText());
 

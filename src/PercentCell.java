@@ -42,4 +42,5 @@ public class PercentCell extends RealCell {
 
         return Double.parseDouble(parse) / 100.0;
     }
+
 }

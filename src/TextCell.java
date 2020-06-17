@@ -6,7 +6,7 @@
     Replicate what Microsoft Excel can do with cells in a grid and implements certain
     functions, such as adding two cells together. */
 
-public class TextCell implements Cell {
+public class TextCell implements Cell, Comparable<TextCell> {
     private String text;
 
     public TextCell(String full) {
@@ -55,5 +55,9 @@ public class TextCell implements Cell {
     @Override
     public String fullCellText() {
         return this.text;
+    }
+
+    public int compareTo(TextCell other) {
+        return this.fullCellText().compareTo(other.fullCellText());
     }
 }
