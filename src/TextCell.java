@@ -1,12 +1,12 @@
 /*  Lavindu Devadithya
-    6/10/2020
+    6/17/2020
 
     Lab 11: TextExcel
 
     Replicate what Microsoft Excel can do with cells in a grid and implements certain
     functions, such as adding two cells together. */
 
-public class TextCell implements Cell, Comparable<TextCell> {
+public class TextCell implements Cell, Comparable {
     private String text;
 
     public TextCell(String full) {
@@ -57,7 +57,11 @@ public class TextCell implements Cell, Comparable<TextCell> {
         return this.text;
     }
 
-    public int compareTo(TextCell other) {
-        return this.fullCellText().compareTo(other.fullCellText());
+    public int compareTo(Object other) {
+        if (other instanceof TextCell) {
+            return this.fullCellText().compareTo(((TextCell) other).fullCellText());
+        }
+
+        return 0;
     }
 }

@@ -1,5 +1,5 @@
 /*  Lavindu Devadithya
-    6/10/2020
+    6/17/2020
 
     Lab 11: TextExcel
 
@@ -12,7 +12,6 @@ public class RealCell extends TextCell implements Cell {
 
     public RealCell(String c) {
         super(c);
-        //super.setText(this.getDoubleValue() + "");
     }
 
     //might need later
@@ -25,17 +24,17 @@ public class RealCell extends TextCell implements Cell {
         return Double.parseDouble(super.fullCellText());
     }
 
-    public int compareTo(RealCell other) {
-        if (this.getDoubleValue() < other.getDoubleValue()) {
-            return -1;
+    public int compareTo(Object other) {
+        if (other instanceof RealCell) {
+            if (this.getDoubleValue() < ((RealCell) other).getDoubleValue()) {
+                return -1;
+            } else if (this.getDoubleValue() == ((RealCell) other).getDoubleValue()) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
 
-        else if (this.getDoubleValue() == other.getDoubleValue()) {
-            return 0;
-        }
-
-        else {
-            return 1;
-        }
+        return 0;
     }
 }
